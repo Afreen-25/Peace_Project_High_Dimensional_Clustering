@@ -164,6 +164,7 @@ def _analyze_chunk(chunk: str, chunk_num: int, confidence_threshold: int = 55) -
         "chunk_num":        chunk_num,
         "final_verdict":    final_verdict,
         "final_confidence": final_confidence,
+        "contempt_score":   decision.get("contempt_score", 0),
         "key_phrases":      decision.get("key_phrases", []),
         "reasoning":        decision.get("reasoning", ""),
         "agents":           {"context": context, "semantics": semantics, "tone": tone},
@@ -210,6 +211,9 @@ def analyze_transcript_for_contempt(
     top_label, top_n = counts.most_common(1)[0]
     avg_confidence   = round(sum(r["final_confidence"] for r in chunk_results) / len(chunk_results))
     vote_agreement   = round(top_n / len(chunk_results) * 100)
+    avg_contempt_score = round(
+    sum(r["contempt_score"] for r in chunk_results) / len(chunk_results)
+)
 
     all_phrases: List[str] = []
     for r in chunk_results:
@@ -221,6 +225,7 @@ def analyze_transcript_for_contempt(
     return {
         "verdict":         top_label,
         "confidence":      avg_confidence,
+        "contempt_score":   avg_contempt_score,
         "vote_agreement":  vote_agreement,
         "key_phrases":     top_phrases,
         "chunk_breakdown": dict(counts),
