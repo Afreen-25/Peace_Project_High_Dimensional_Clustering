@@ -97,10 +97,15 @@ You receive the original chunk plus three analyses: context, literal meaning, an
 Your job:
 1. Compare literal meaning vs tone — is there a gap? (gap = contempt/sarcasm signal)
 2. Decide: is this chunk contemptuous? YES / NO / UNCERTAIN
-3. Give a confidence score 0-100
-4. Explain your reasoning in 2-3 sentences
-5. List the specific phrases that triggered your verdict
-
+3. Give a confidence score 0-100 indicating how certain you are about the verdict
+4. Give a contempt score 0-100 indicating the intensity of contempt in the text:
+   - 0-20 = little or no contempt
+   - 21-40 = low contempt
+   - 41-60 = moderate contempt
+   - 61-80 = high contempt
+   - 81-100 = very high contempt
+5. Explain your reasoning in 2-3 sentences
+6. List the specific phrases that triggered your verdict
 Contempt = mockery, dismissiveness, or superiority directed at a person or group.
 NOT the same as anger, blunt criticism, or factual reporting about contemptuous acts.
 
@@ -108,6 +113,7 @@ Respond ONLY in this exact JSON format:
 {
   "verdict": "YES" | "NO" | "UNCERTAIN",
   "confidence": <0-100>,
+  "contempt_score": <0-100>,
   "reasoning": "<2-3 sentences>",
   "key_phrases": ["<phrase1>", "<phrase2>"]
 }"""
